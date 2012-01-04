@@ -1,0 +1,84 @@
+{
+"profiles":{
+    "bot": {
+    	"match":"#bot|borg|google|yahoo|slurp|msnbot|msrbot|openbot|archiver|netresearch|lycos|scooter|altavista|teoma|gigabot|baiduspider|blitzbot|oegp|charlotte|furlbot|http%20client|polybot|htdig|ichiro|mogimogi|larbin|pompos|scrubby|searchsight|seekbot|semanticdiscovery|silk|snappy|speedy|spider|voila|vortex|voyager|zao|zeal#i",
+    	"profile":{"bot":"1"}
+    },
+    "default": {
+    	"match":"#no-match-found#i",
+    	"profile":{"width":"320"}
+    },
+    "desktop": {
+    	"match":"#windows|macintosh|linux#i",
+    	"profile":{"width":"800"}
+    },
+    "iphone": {
+    	"match":"#iphone#i",
+    	"profile":{"ios":"1", "width":"320"}
+    },
+    "ipad": {
+    	"match":"#ipad#i",
+    	"profile":{"ios":"1", "width":"768"}
+    },
+    "symbian^3": {
+    	"match":"#symbian/3#i",
+    	"profile":{"sym3":"1", "width":"360"}
+    },
+    "symbian9.4": {
+    	"match":"#symbianos/9.4#i",
+    	"profile":{"sym94":"1", "width":"360"}
+    },
+    "symbian9.3": {
+    	"match":"#symbianos/9.3#i",
+    	"profile":{"sym93":"1", "width":"360"}
+    },
+    "n73": {
+    	"match":"#N73#i",
+    	"profile":{"sym91":"1", "width":"240"}
+    },
+    "series602.x": {
+    	"match":"#series60/2.8|{series60/2.9}#i",
+    	"profile":{"s60":"1", "width":"240"}
+    },
+    "maemo": {
+    	"match":"#maemo#i",
+    	"profile":{"maemo":"1"}
+    },
+    "android": {
+    	"match":"#android#i",
+    	"profile":{"droid":"1", "width":"320"}
+    },
+    "webos": {
+    	"match":"#webos#i",
+    	"profile":{"web0s":"1"}
+    },
+    "blackberry": {
+    	"match":"#blackberry#i",
+    	"profile":{"bb":"1"}
+    },
+    "windowsphone": {
+    	"match":"#windows phone os#i",
+    	"profile":{"winpho":"1"}
+    },
+    "windowsmobile": {
+    	"match":"#windows mobile#i",
+    	"profile":{"winmo":"1", "width":"240"}
+    },
+    "s40ovi": {
+    	"match":"#S40OviBrowser#i",
+    	"profile":{"s40ovi":"1", "width":"240"}
+    },
+    "s40QWERTY": {
+    	"match":"#NokiaC3#i",
+    	"profile":{"s40QWERTY":"1", "width":"320"}
+    },
+    "MeeGo": {
+    	"match":"#MeeGo#i",
+    	"profile":{"meego":"1", "width":"320"}
+    },
+    "ipadoperamini": {
+    	"match":"#ipad opera mini#i",
+    	"profile":{"omini":"1", "width":"768"}
+    }
+}
+}

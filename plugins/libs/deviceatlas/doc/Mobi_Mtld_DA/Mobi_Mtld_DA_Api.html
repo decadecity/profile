@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Mobi_Mtld_DA_Api</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+
+<h2 class="class-name">Class Mobi_Mtld_DA_Api</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Used to load the recognition tree and perform lookups of all properties, or  individual properties. <br /></p>
+<p class="description"><p><strong>Note:</strong> Due to limitations in the level of recursion allowed, versions of PHP  older than 5.2.3 will be unable to load the JSON data file.  i.e. DeviceAtlas must be run with PHP version 5.2.3 or later.<br /></p><p>Typical usage is as follows: <br />  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$tree&nbsp;</span>=&nbsp;<span class="src-id"><a href="Mobi_Mtld_DA_Api.html">Mobi_Mtld_DA_Api</a></span><span class="src-sym">::</span><a href="Mobi_Mtld_DA_Api.html#methodgetTreeFromFile">getTreeFromFile</a><span class="src-sym">(</span><span class="src-str">&quot;sample/Sample.json&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$prps&nbsp;</span>=&nbsp;<span class="src-id"><a href="Mobi_Mtld_DA_Api.html">Mobi_Mtld_DA_Api</a></span><span class="src-sym">::</span><a href="Mobi_Mtld_DA_Api.html#methodgetProperties">getProperties</a><span class="src-sym">(</span><span class="src-var">$tree</span><span class="src-sym">,&nbsp;</span><span class="src-str">&quot;Nokia6680...&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$prop&nbsp;</span>=&nbsp;<span class="src-id"><a href="Mobi_Mtld_DA_Api.html">Mobi_Mtld_DA_Api</a></span><span class="src-sym">::</span><a href="Mobi_Mtld_DA_Api.html#methodgetProperty">getProperty</a><span class="src-sym">(</span><span class="src-var">$tree</span><span class="src-sym">,&nbsp;</span><span class="src-str">&quot;Nokia6680...&quot;</span><span class="src-sym">,&nbsp;</span><span class="src-str">&quot;displayWidth&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div>  <br />  <br /> Note that you should normally use the user-agent that was received in  the device's HTTP request. In a PHP environment, you would do this as follows:  <br />  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$ua&nbsp;</span>=&nbsp;<span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-str">'HTTP_USER_AGENT'</span><span class="src-sym">]</span><span class="src-sym">;;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$displayWidth&nbsp;</span>=&nbsp;<span class="src-id"><a href="Mobi_Mtld_DA_Api.html">Mobi_Mtld_DA_Api</a></span><span class="src-sym">::</span><a href="Mobi_Mtld_DA_Api.html#methodgetPropertyAsInteger">getPropertyAsInteger</a><span class="src-sym">(</span><span class="src-var">$tree</span><span class="src-sym">,&nbsp;</span><span class="src-var">$ua</span><span class="src-sym">,&nbsp;</span><span class="src-str">&quot;displayWidth&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div>  <br />  <br /> (Also note the use of the strongly typed property accessor) <br /> In  some contexts, the user-agent you want to recognise may have been provided in a  different header. Opera's mobile browser, for example, makes requests via an  HTTP proxy, which rewrites the headers. in that case, the original device's  user-agent is in the HTTP_X_OPERAMINI_PHONE_UA header, and the following code  could be used: <br />  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$opera_header&nbsp;</span>=&nbsp;<span class="src-str">&quot;HTTP_X_OPERAMINI_PHONE_UA&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><a href="http://www.php.net/array_key_exists">array_key_exists</a><span class="src-sym">(</span><span class="src-var">$opera_header</span><span class="src-sym">,&nbsp;</span><span class="src-var">$_SERVER</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$ua&nbsp;</span>=&nbsp;<span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-var">$opera_header</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">}&nbsp;</span><span class="src-key">else&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;<span class="src-var">$ua&nbsp;</span>=&nbsp;<span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-str">'HTTP_USER_AGENT'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$screen_width&nbsp;</span>=&nbsp;<span class="src-id"><a href="Mobi_Mtld_DA_Api.html">Mobi_Mtld_DA_Api</a></span><span class="src-sym">::</span><a href="Mobi_Mtld_DA_Api.html#methodgetPropertyAsInteger">getPropertyAsInteger</a><span class="src-sym">(</span><span class="src-var">$tree</span><span class="src-sym">,&nbsp;</span><span class="src-var">$ua</span><span class="src-sym">,&nbsp;</span><span class="src-str">&quot;displayWidth&quot;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> MTLD (dotMobi)</li>
+				<li><span class="field">version:</span> $Id: Api.php 2830 2008-05-13 10:48:55Z ahopebailie $</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_Api.php.html">/Api.php</a> (line <span class="field">66</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+												<div class="method-definition">
+					static 						<span class="method-result">integer</span>
+										<a href="#getApiRevision" title="details" class="method-name">getApiRevision</a>
+										()
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#getProperties" title="details" class="method-name">getProperties</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#getPropertiesAsTyped" title="details" class="method-name">getPropertiesAsTyped</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getProperty" title="details" class="method-name">getProperty</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">boolean</span>
+										<a href="#getPropertyAsBoolean" title="details" class="method-name">getPropertyAsBoolean</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getPropertyAsDate" title="details" class="method-name">getPropertyAsDate</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">integer</span>
+										<a href="#getPropertyAsInteger" title="details" class="method-name">getPropertyAsInteger</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getPropertyAsString" title="details" class="method-name">getPropertyAsString</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#getTreeFromFile" title="details" class="method-name">getTreeFromFile</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#getTreeFromString" title="details" class="method-name">getTreeFromString</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$json</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">integer</span>
+										<a href="#getTreeRevision" title="details" class="method-name">getTreeRevision</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>)
+									</div>
+																<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#listProperties" title="details" class="method-name">listProperties</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>)
+									</div>
+								
+																																																																																																				</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodgetApiRevision" id="getApiRevision"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getApiRevision</span> (line <span class="line-number">146</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the revision number of this API</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> revision</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			getApiRevision
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetProperties" id="getProperties"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getProperties</span> (line <span class="line-number">179</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of known properties (as strings) for the user agent</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> properties</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getProperties
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: String from the device's User-Agent header</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPropertiesAsTyped" id="getPropertiesAsTyped"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getPropertiesAsTyped</span> (line <span class="line-number">190</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of known properties (as typed) for the user agent</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> properties</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getPropertiesAsTyped
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: string From the device's User-Agent header</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetProperty" id="getProperty"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getProperty</span> (line <span class="line-number">204</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a value for the named property for this user agent</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> property</li>
+				<li><span class="field">throws:</span> Mobi_Mtld_Da_Exception_UnknownPropertyException, Mobi_Mtld_Da_Exception_InvalidPropertyException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getProperty
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: String from the device's User-Agent header</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property to return</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPropertyAsBoolean" id="getPropertyAsBoolean"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getPropertyAsBoolean</span> (line <span class="line-number">221</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Strongly typed property accessor.</p>
+<p class="description"><p>Returns a boolean property.  (Throws an exception if the property is actually of another type.)</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> property</li>
+				<li><span class="field">throws:</span> Mobi_Mtld_Da_Exception_UnknownPropertyException, Mobi_Mtld_Da_Exception_InvalidPropertyException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			getPropertyAsBoolean
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: String from the device's User-Agent header</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property to return</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPropertyAsDate" id="getPropertyAsDate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getPropertyAsDate</span> (line <span class="line-number">240</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Strongly typed property accessor.</p>
+<p class="description"><p>Returns a date property.  (Throws an exception if the property is actually of another type.)</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> property</li>
+				<li><span class="field">throws:</span> Mobi_Mtld_Da_Exception_UnknownPropertyException, Mobi_Mtld_Da_Exception_InvalidPropertyException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getPropertyAsDate
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: String from the device's User-Agent header</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property to return</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPropertyAsInteger" id="getPropertyAsInteger"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getPropertyAsInteger</span> (line <span class="line-number">259</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Strongly typed property accessor.</p>
+<p class="description"><p>Returns an integer property.  (Throws an exception if the property is actually of another type.)</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> property</li>
+				<li><span class="field">throws:</span> Mobi_Mtld_Da_Exception_UnknownPropertyException, Mobi_Mtld_Da_Exception_InvalidPropertyException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			getPropertyAsInteger
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: String from the device's User-Agent header</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property to return</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPropertyAsString" id="getPropertyAsString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getPropertyAsString</span> (line <span class="line-number">278</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Strongly typed property accessor.</p>
+<p class="description"><p>Returns a string property.  (Throws an exception if the property is actually of another type.)</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> property</li>
+				<li><span class="field">throws:</span> Mobi_Mtld_Da_Exception_UnknownPropertyException, Mobi_Mtld_Da_Exception_InvalidPropertyException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getPropertyAsString
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$userAgent</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$userAgent</span><span class="var-description">: String from the device's User-Agent header</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$property</span><span class="var-description">: The name of the property to return</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTreeFromFile" id="getTreeFromFile"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getTreeFromFile</span> (line <span class="line-number">122</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a tree from a JSON file.</p>
+<p class="description"><p>Use an absolute path name to be sure of success if the current working directory is not clear.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> tree</li>
+				<li><span class="field">throws:</span> JsonException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getTreeFromFile
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filename</span><span class="var-description">: The location of the file to read in.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTreeFromString" id="getTreeFromString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getTreeFromString</span> (line <span class="line-number">75</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a tree from a JSON string</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> tree</li>
+				<li><span class="field">throws:</span> JsonException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getTreeFromString
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$json</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$json</span><span class="var-description">: The string of json data.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTreeRevision" id="getTreeRevision"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method getTreeRevision</span> (line <span class="line-number">138</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the revision number of the tree</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> revision</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			getTreeRevision
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlistProperties" id="listProperties"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static method listProperties</span> (line <span class="line-number">157</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of known property names.</p>
+<p class="description"><p>Returns all properties available for all user agents in this tree, with their data type names</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> properties</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+	    static
+		<span class="method-result">array</span>
+		<span class="method-name">
+			listProperties
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$tree</span><span class="var-description">: Previously generated tree</span>			</li>
+				</ul>
+		
+			
+	</div>
+
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 29 Mar 2011 15:00:38 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.0</a>
+	</p>
+	</div></body>
+</html>

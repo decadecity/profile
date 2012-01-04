@@ -1,0 +1,166 @@
+Introduction
+============================
+
+
+What WURFL Is
+============================
+
+Setting-Up WURFL-PHP
+====================================
+
+- To use WURFL-PHP you must have installed PHP version 5.1 or above.
+
+ 
+
+Operating Systems
+=======================
+All platforms that run PHP. 
+
+
+Getting Started
+=======================
+
+1) Download a release archive from wurfl site and extract it to a directory 
+   suitable for your application
+
+
+	
+
+
+To start using the api you need to set some configuration options.
+
+
+1) Create a configuration 
+	There are basicaly two ways to create a cofiguration object
+	
+	1.1	
+	
+	Create file wurfl-config.xml Or  (You can find a sample file in the examples/resources directory)
+ 
+ 	It is the only file you need to to modify in order to use the api.
+	
+	a) set the paths to the location of the main wurfl  and patch files
+		- you can put a compressed(zip) files if you have the 
+		  zip module enabled
+	
+	b) Configure the Persistance provider by specifying the provider and 
+		and the extra parameters needed to initialize the provider:
+		The Api support the following caching mechanism
+			- Memcache (http://uk2.php.net/memcache)	
+			- APC(Alternative PHP Cahce http://uk3.php.net/apc)
+			- File
+		
+		remember that if you want to use the first 2 implementaions you need to 
+		install and load the relative modules.
+	
+		  
+	c) Configure the Cache provider by specifying the provider and 
+		and the extra parameters needed to initialize the provider:
+		The Api support the following caching mechanism
+			- Memcache (http://uk2.php.net/memcache)	
+			- APC(Alternative PHP Cahce http://uk3.php.net/apc)
+			- EAccelerator(http://eaccelerator.net/)
+			- File
+			- Null 
+		
+		remember that if you want to use the first 3 mechanisms you need to 
+		install and load the relative modules.
+		Please refer to the links for further information how to install and enable 
+		the modules.
+		
+		
+	then	
+		
+    	 
+2) 
+        define("WURFL_DIR", dirname(__FILE__) . '/../../../WURFL/');
+        define("RESOURCES_DIR", dirname(__FILE__) . "/../../resources/");
+
+        require_once WURFL_DIR . 'Application.php';
+
+        $persistenceDir = RESOURCES_DIR . "storage/persistence";
+        $cacheDir = RESOURCES_DIR . "storage/cache";
+        $wurflConfig = new WURFL_Configuration_InMemoryConfig ();
+
+        $wurflConfig
+            ->wurflFile(RESOURCES_DIR . "wurfl.xml")
+            ->wurflPatch(RESOURCES_DIR . "web_browsers_patch.xml")
+            ->persistence("file",array(
+                                WURFL_Configuration_Config::DIR => $persistenceDir))
+            ->cache("file", array(
+                            WURFL_Configuration_Config::DIR => $cacheDir,
+                            WURFL_Configuration_Config::EXPIRATION => 36000));
+
+
+        $wurflManagerFactory = new WURFL_WURFLManagerFactory($wurflConfig);
+
+        $wurflManager = $wurflManagerFactory->create();
+        $wurflInfo = $wurflManager->getWURFLInfo();
+
+	- Getting The device
+	  Now you are ready
+
+
+2.1 Getting the device
+===========================
+
+	You have Four methods for retrieving a device 
+		a) getDeviceForRequest(WURFL_Request_GenericRequest $request)
+			where a WURFL_Request_GenericRequest is an object which encapsulates 
+			-userAgent, ua-profile, support for xhtml of the device
+		
+		b) getDeviceForHttpRequest($_SERVER)
+			Most of the time you will use this method, and the api will create the 
+			the  WURFL_Request_GenericRequest instance for you
+			
+		c) getDeviceForUserAgent(string $userAgent)
+			
+	 	d) getDevice(string $deviceID)
+		
+		
+		e.g
+			$device = $wurflManger->getDeviceForUserAgent($userAgent);
+
+2.2 Getting the device properties and its capabiliites
+===================================================
+
+- To get the properites of the device like device id, userAgent, fallBack..
+	is simple as 
+	
+	$deviceID = $device->id;
+	$fallBack = $device->fallBack;
+	
+- To get the capability value 
+	$capValue = $device->getCapabilityValue("capabilityName");
+	$allCapabilities = $device->getAllCapabilities();
+		
+
+2.3) Useful Methods		
+====================================
+- In WURFL_WURFLManager you will find a bunch of utility methods like:
+	- getListOfGroups() 
+		which returns an array of all groups id found in the wurfl file.
+		
+		
+		
+TESTS
+==================
+
+There are a bunch of test in tests dir
+
+
+The tests are for checking that the matching algorithms are working properly
+
+As tests data provider we use the file "unit-test.yml" in tests/resources directory.
+
+PHPUnit
+================
+There are a bunch of tests that you can run.
+
+phpunit tests/WURFL/StorageTestSuite.php 
+
+
+Please Contact me for any problems and ideas you may have.
+
+Fanta (fantayeneh@gmail.com)
+			

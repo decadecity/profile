@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<profile title="KitchenSink" id="ks" version="1">
+	<feature id="json" default="0">
+		<description>Native JSON Object</description>
+		<data>
+			<service id="kb" property="json" />
+			<service id="deviceatlas" property="JSONSupported" />
+		</data>
+		<test type="text/javascript"><![CDATA[
+			return !!window.JSON?1:0;
+			]]></test>
+	</feature>
+	
+	<feature id="width" value="800">
+		<description>Screen Width</description>
+		<data>
+			<service id="kb" property="width"/>
+			<service id="deviceatlas" property="displayWidth"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+			return (window.innerWidth>0)?window.innerWidth:screen.width;
+			]]></test>
+	</feature>
+	
+	<feature id="height" value="600">
+		<description>Screen Height</description>
+		<data>
+			<service id="kb" property="height"/>
+			<service id="deviceatlas" property="displayHeight"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+			return (window.innerHeight>0)?window.innerHeight:screen.height;
+			]]></test>
+	</feature>
+	
+	<feature id="touch" default="0">
+		<description>Touch event support</description>
+		<data>
+			<service id="kb" property="touch"/>
+			<service id="deviceatlas" property="touchScreen"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+			try{document.createEvent("TouchEvent");return 1;}
+			catch(e){return 0;}
+			]]></test>
+	</feature>
+	
+	<feature id="desktop" default="0">
+		<description>Desktop browser</description>
+		<data>
+			<service id="deviceatlas" property="isBrowser"/>
+		</data>
+	</feature>
+</profile>
