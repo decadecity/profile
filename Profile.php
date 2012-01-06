@@ -1,16 +1,46 @@
 <?php
 
+/**
+ * Profile - a pragmatic means of determining device features + contraints by the folks @yiibu.
+ *
+ * @author      Bryan Rieger <hello@yiibu.com>
+ * @copyright   2012 Yiibu Limited
+ * @link        http://yiibu.com/profile
+ * @license     http://yiibu.com/profile/license
+ * @version     0.1
+ *
+ * MIT LICENSE
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 interface DataService {
 	function query($plugin, $features, $useragent);
 }
 
 class Plugin implements DataService {
 	
+	public $plugin;
 	public $profile;
-	
-	private $plugin;
-	private $features;
-	private $useragent;
+	public $features;
+	public $useragent;
 
 	public function __construct($plugin, $features, $useragent) {
 		$this->query($plugin, $features, $useragent);
@@ -26,9 +56,10 @@ class Profile {
 
 	public $profile;
 	
-	private $config;
-	private $plugins;
-	private $features;
+	public $config;
+	public $plugins;
+	public $features;
+	public $useragent;
 	
 	/*	
 		TODO:
@@ -65,6 +96,7 @@ class Profile {
 		}
 		
 		$this->profile = array();
+		$this->useragent = $_SERVER['HTTP_USER_AGENT'];
 		if (empty($_COOKIE['profile'])) {
 			$this->update();
 		} else {
@@ -80,6 +112,7 @@ class Profile {
 		$this->config['log']?$this->log($raw, $ua):false;
 		
 		$profile = json_decode($raw, true);
+		
 		foreach ($profile as $feature => $value) {
 			$this->profile[$feature] = $value;
 		}
@@ -91,6 +124,7 @@ class Profile {
 		if ($id[0] != $features[0] or $id[1] != $features[1]) {
 			$this->update();
 		}
+		
 		
 	}
 	public function set() {

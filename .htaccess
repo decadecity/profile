@@ -1,10 +1,5 @@
-AddHandler php5-script .php .js .html
-AddType application/x-httpd-php .php .js .html
+AddHandler php5-script .php
+AddType application/x-httpd-php .php
 
 php_flag display_errors 1
 php_value error_reporting 8191
-
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]

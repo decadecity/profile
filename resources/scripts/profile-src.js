@@ -27,6 +27,8 @@ var device = {
 		this.set(name,"",-1);
 	},
 	update:function(init) {
+		/* we don't need (or want) to pass the ua through the cookie */
+		delete this.profile['ua'];
 		/* add features to profile based on defined feature tests */
 		for (feature in this.features) {
 			this.profile[feature] = this.features[feature]();
@@ -38,7 +40,9 @@ var device = {
 		data = data.substring(0, data.length-3);
 		data += "%7D";
 		/* write profile object as string to cookie */
-		this.set('profile', data, 30); 
+		this.set('profile', data, 30);
+		/* this doesn't need to be the in cookie, and is merely a convenience */
+		this.profile['ua'] = navigator.userAgent;
 	},
 	init:function() {
 		/* read profile object from cookie */

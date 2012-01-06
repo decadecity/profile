@@ -1,7 +1,12 @@
 <?php 
 require 'Profile.php';
 $device = new Profile("config.ini");
-$profile = $device->profile;
+
+set_error_handler("custom_warning_handler", E_NOTICE);
+
+function custom_warning_handler($errno, $errstr) {
+// do something
+}
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
@@ -11,86 +16,51 @@ $profile = $device->profile;
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, minimum-scale=1">
-	<script type="text/javascript" src="profile.js"></script>
-	<style type="text/css">
-		table {
-			width: 100%;
-			border: 0;
-		}
-		thead td, tfoot td {
-			font-weight: bold;
-			background: #ddd;
-			border-bottom: 2px solid #ccc;
-		}
-		td { width: 33%; padding: .25em }
-		tr { background: #eee;}
-		dt {
-			float:left;
-			padding: .5em .25em;
-			color:#999;
-			
-		}
-		dd {
-			padding: .5em;
-			font-weight: bold;
-		}
-	</style>
+	<script type="text/javascript" src="profile.js.php"></script>
+	<script type="text/javascript" src="resources/scripts/functions.js"></script>
+	<link rel="stylesheet" type="text/css" href="resources/styles/profile.css" />
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css' />
 </head>
 <body>
-	<h1>Device Profile</h1>
-    <p><a href="http://github.com/bryanrieger/profile">Source available on Github</a></p>
-	<?php
-		echo "<h2>UA String</h2>";
-		echo "<dl>";
-		echo "<dt>ua string</dt><dd>".$_SERVER['HTTP_USER_AGENT']."</dd>";
-		echo "</dl>";
-	?>
-	<h2>Features</h2>
-    <table>
-    <thead>
-    	<tr><td>Feature</td><td>Server</td><td>Client</td></tr>
-    </thead>
-    <tbody id="features">
-	<?php
-    	foreach ($profile as $name => $value) {
-			echo "<tr id=".$name."><td>".$name."</td><td>".$value."</td></tr>";
-		}
-	?>
-	</tbody>
-    <tfoot>
-    	<tr>
-        	<td><a href="#" onclick="window.location.reload();">Reload</a></td>
-        	<td></td>
-        	<td><a href="#" onclick="clearProfile();">Clear profile</a></td>
-        </tr>
-    </tfoot>
-    </table>
-	<script type="text/javascript">
-    	for (var feature in device.profile) {
-    		var f_id = document.getElementById(feature);
-    		if (f_id) {
-    			var td = document.createElement('td');
-    			td.innerHTML =  device.profile[feature];
-    			f_id.appendChild(td);
+	<header>
+		<h1>Profile</h1>
+		<p>A pragmatic means <em>(and extremely early release)</em> of determining device features + contraints by the folks <a href="http://yiibu.com">@yiibu</a>.</p>
+		<p>Please expect bugs. Documentation will follow.</p>
+	<header>
+    
+	<h3>Title: <?php echo $device->features['title']; ?></h3>
+	<p><strong>id:</strong> <?php echo $device->features['id']; ?>, <strong>version:</strong> <?php echo $device->features['version']; ?></p>
+    <dl>
+    	<dt class="header"><span class='feature'>Feature</span><span class='id'>(id:</span><span class='type'>type)</span><span class='value cloud'>cloud</span><span class='value client'>client</span></dt>
+    	<div id="features">
+    	<?php foreach ($device->features as $feature) {
+    		$name = $feature->name;
+    		$id = (string)$feature['id'];
+    		$type = $feature['type'];
+    		if (isset($device->profile[$id])) {
+    			$cloud = $device->profile[$id];
     		} else {
-    			var tr = document.createElement('tr');
-    			var td1 = document.createElement('td')
-    			var td2 = document.createElement('td')
-    			var td3 = document.createElement('td')
-    			td1.innerHTML = feature;
-    			tr.appendChild(td1);
-    			tr.appendChild(td2);
-    			td3.innerHTML = device.profile[feature];
-    			tr.appendChild(td3);
-    			var tbl = document.getElementById('features').appendChild(tr);
+    			$cloud = "n/a";
     		}
-		}
-		function clearProfile() {
-			window.device.clear('profile')
-			var tbl = document.getElementById('features');
-			tbl.parentNode.removeChild(tbl);
-		} 
-		
-    </script>
+    		$description = $feature->description;
+			$test = $feature->test;
+			$test==""?$test="n/a":false;
+    		echo "<dt><span class='feature'>$name</span><span class='id'>($id:</span><span class='type'>$type)</span>";
+    		echo "<span class='value cloud'>$cloud</span><span id='$id' class='value client'>n/a</span></dt>";
+    		echo "<dd><p>$description</p><h4>Test</h4><code>$test</code></dd>";
+    	}
+    	?>
+    	<dt><span class='feature'>User Agent</span><span class='id'>(ua:</span><span class='type'>string)</span><span class='value cloud'>&hellip;</span><span class='value client'>&hellip;</span></dt><dd><code><?php echo $device->useragent; ?></code></dd>
+    	</div>
+    </dl>
+    <nav>
+    	<a id="refresh" class="button" href="#" onclick="window.location.reload();">Refresh</a>
+		<a id="delete" class="button" href="#" onclick="deleteProfile();">Delete</a>
+	</nav>
+    
+    <footer>
+    	<p>Profile is released under the <a rel="license" href="http://www.slimframework.com/license">MIT Public License</a>, and the <a href="http://github.com/yiibu/profile">source code</a> is available <a href="http://github.com/yiibu/profile">via Github</a>.</p>
+    	<p><small>&copy; copyright <a href="http://yiibu.com">yiibu</a> 2012</small></p>
+    </footer>
 </body>
 </html>
