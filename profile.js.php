@@ -4,13 +4,13 @@
 		if (file_exists(dirname(__FILE__).$config['features'])) {
 			$profile_time = filemtime(dirname(__FILE__).$config['features']);
 		} else {
-	   		exit('Failed to open'.$config['profile']);
+			exit('Failed to open'.$config['profile']);
 		}
 
 		if (file_exists(dirname(__FILE__).$config['javascript_src'])) {
 			$js_time = filemtime(dirname(__FILE__).$config['javascript_src']);
 		} else {
-	   		exit('Failed to open'.$config['javascript_src']);
+			exit('Failed to open'.$config['javascript_src']);
 		}
 
 		if (file_exists(dirname(__FILE__).$config['javascript_cache'])) {
@@ -31,14 +31,15 @@
 		}
 		$script = rtrim($script, ",");
 
-		$javascript = str_replace("[FEATURE_DETECTION]", $script, $js);
+		$javascript = str_replace("/*[FEATURE_DETECTION]*/", $script, $js);
 		if (!$debug) {
 			// remove all /* comments */
 			$javascript = preg_replace("/\\/\\*.+?\\*\\//uis", '', $javascript);
+			// TODO:  remove all // comments
 			// remove all extra spaces, tabs and newlines
 			$javascript = preg_replace("/(\s\s+|\t|\n)/",'',$javascript);
-		}
- 		file_put_contents(dirname(__FILE__).$config['javascript_cache'], $javascript);
+ 		}
+		file_put_contents(dirname(__FILE__).$config['javascript_cache'], $javascript);
 	} else {
 		$javascript = file_get_contents(dirname(__FILE__).$config['javascript_cache']);
 	}
