@@ -36,7 +36,7 @@ interface DataService {
 }
 
 class Plugin implements DataService {
-	
+
 	public $plugin;
 	public $profile;
 	public $features;
@@ -55,13 +55,13 @@ class Plugin implements DataService {
 class Profile {
 
 	public $profile;
-	
+
 	public $config;
 	public $plugins;
 	public $features;
 	public $useragent;
-	
-	/*	
+
+	/*
 		TODO:
 		------------------------------------------
 		[ ] add comments + readme
@@ -74,13 +74,14 @@ class Profile {
 		[ ] document everything
 		[ ] create a nice little initial test page
 		[ ] create a few other variants of 'profile.xml' for folks to use…
-		
+
 	*/
-	
+
 	public function __construct($config) {
 		// load config from supplied file name in $config rather than hard coded.
 		try {
 			$this->config = parse_ini_file("config.ini", true);
+			$this->config['debug'] = ($this->config['debug'] == '1');
 		} catch (Exception $e) {
 			exit('Caught exception: '.$e->getMessage()."\n");
 		}
@@ -94,29 +95,29 @@ class Profile {
 		} catch (Exception $e) {
 			exit('Caught exception: '.$e->getMessage()."\n");
 		}
-		
+
 		$this->profile = array();
 		$this->useragent = $_SERVER['HTTP_USER_AGENT'];
-		if (empty($_COOKIE['profile'])) {
+		if (empty($_COOKIE['profile']) || $this->config['debug']) {
 			$this->update();
 		} else {
 			$this->get();
 		}
 		$this->set();
-		
+
 	}
 	public function get() {
 		$ua = $_SERVER['HTTP_USER_AGENT'];
-		
+
 		$raw = urldecode(stripslashes($_COOKIE['profile']));
 		$this->config['log']?$this->log($raw, $ua):false;
-		
+
 		$profile = json_decode($raw, true);
-		
+
 		foreach ($profile as $feature => $value) {
 			$this->profile[$feature] = $value;
 		}
-		
+
 		// check to see if the features profile version or id has changed
 		$features[0] = $this->features['id'];
 		$features[1] = $this->features['version'];
@@ -124,8 +125,8 @@ class Profile {
 		if ($id[0] != $features[0] or $id[1] != $features[1]) {
 			$this->update();
 		}
-		
-		
+
+
 	}
 	public function set() {
 		try {
@@ -161,7 +162,7 @@ class Profile {
 					$new = $device->addChild("profile", $device_profile);
 					$new->addAttribute('count', '1');
 				}
-			} 
+			}
 		}
 		if (!$device_found) {
 				$device = new SimpleXMLElement("<device/>");
@@ -180,7 +181,7 @@ class Profile {
 		foreach($this->profile as $feature => $value) {
 			if ($value === true) {
 				$this->profile[$feature] = 1;
-			} 
+			}
 		}
 	}
 	public function update() {
@@ -193,7 +194,9 @@ class Profile {
 				$features = array();
 				foreach ($this->features as $feature) {
 					$result = $feature->xpath("data/plugin[@id='$plugin']");
-					($result)?$features[(string)$feature['id']] = (string)$result[0]['property']:false;
+					if ($result) {
+						$features[(string)$feature['id']] = (string)$result[0]['property'];
+					}
 				}
 				$obj = new $plugin($api, $features, $ua);
 				$this->plugins[$plugin] = $obj->profile;
