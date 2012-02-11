@@ -11,7 +11,7 @@
 			return !!window.JSON?1:0;
 			]]></test>
 	</feature>
-	
+
 	<feature id="width" value="800" type="number">
 		<name>Screen Width</name>
 		<description>From window.innerWidth if available, otherwise from screen.width.</description>
@@ -23,7 +23,7 @@
 			return (window.innerWidth>0)?window.innerWidth:screen.width;
 			]]></test>
 	</feature>
-	
+
 	<feature id="height" value="600" type="number">
 		<name>Screen Height</name>
 		<description>From window.innerHeight if available, otherwise from screen.height.</description>
@@ -35,7 +35,7 @@
 			return (window.innerHeight>0)?window.innerHeight:screen.height;
 			]]></test>
 	</feature>
-	
+
 	<feature id="clr" value="8" type="number">
 		<name>Colour Depth</name>
 		<description>Get the colour depth of the device display.</description>
@@ -56,7 +56,7 @@
 			return +(xhr!=null);
 			]]></test>
 	</feature>
-	
+
 	<feature id="video" value="1" type="boolean">
 		<name>HTML5 Video</name>
 		<description>Support for HTML5 video?</description>
@@ -72,16 +72,16 @@
 			return video;
 			]]></test>
 	</feature>
-	
+
 	<feature id="geo" value="0" type="boolean">
 		<name>HTML5 Location API</name>
 		<description>Support for HTML5 geo-location API</description>
 		<data />
 		<test type="text/javascript"><![CDATA[
-			return +!!navigator.geolocation;	
+			return +!!navigator.geolocation;
 			]]></test>
 	</feature>
-	
+
 	<feature id="swf" value="0" type="string">
 		<name>Adobe Flash Player</name>
 		<description>Which version of the Adobe Flash Player (if any) is installed on this device.</description>
@@ -107,7 +107,7 @@
 			return '0.0.0';
 			]]></test>
 	</feature>
-	
+
 	<feature id="font" value="0" type="boolean">
 		<name>Web Fonts</name>
 		<description>Ability to use web fonts.</description>
@@ -135,13 +135,13 @@
 			} :
 			function(rule){
 				if (!(sheet && rule)) return false;
-				sheet.cssText = rule;	
+				sheet.cssText = rule;
 				return +sheet.cssText.length !== 0 && !(/unknown/i).test(sheet.cssText)&&sheet.cssText.replace(/\r+|\n+/g, '').indexOf(rule.split(' ')[0]) === 0;
 			};
 			return +supportAtRule('@font-face { font-family: "font"; src: "font.ttf"; }');
 			]]></test>
 	</feature>
-	
+
 	<feature id="svg" value="0" type="boolean">
 		<name>SVG Graphics</name>
 		<description>Are SVG graphics supported?</description>
@@ -150,7 +150,7 @@
 			return +!!document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
 			]]></test>
 	</feature>
-	
+
 	<feature id="cvs" value="0" type="boolean">
 		<name>HMTL5 Canvas</name>
 		<description>Is HTML5 canvas supported.</description>
@@ -164,24 +164,58 @@
 			return canvas;
 			]]></test>
 	</feature>
-	
+
 	<feature id="touch" value="0" type="boolean">
 		<name>Touch Events</name>
 		<description>Ability to create TouchEvent listeners.</description>
 		<data>
-			<plugin id="KnowledgeBase" property="touch"/>
-			<plugin id="DeviceAtlas" property="touchScreen"/>
+		<plugin id="KnowledgeBase" property="touch"/>
+		<plugin id="DeviceAtlas" property="touchScreen"/>
 		</data>
 		<test type="text/javascript"><![CDATA[
-			try{document.createEvent("TouchEvent");return 1;}
-			catch(e){return 0;}
-			]]></test>
+		try{document.createEvent("TouchEvent");return 1;}
+		catch(e){return 0;}
+		]]></test>
 	</feature>
-	
+
+	<feature id="timing" value="0" type="boolean">
+		<name>Timing API</name>
+		<description>Does the browser support timing events?</description>
+		<data>
+		<plugin id="KnowledgeBase" property="timing"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+		return +!!(window.performance && window.performance.timing);
+		]]></test>
+	</feature>
+
+	<feature id="sessionStorage" value="0" type="boolean">
+		<name>Session storage</name>
+		<description>Does the browser support session storage?</description>
+		<data>
+		<plugin id="KnowledgeBase" property="sessionStorage"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+		return +!!(window.sessionStorage);
+		]]></test>
+	</feature>
+
+	<feature id="localStorage" value="0" type="boolean">
+		<name>Persistent storage</name>
+		<description>Does the browser support persistent storage?</description>
+		<data>
+		<plugin id="KnowledgeBase" property="sessionStorage"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+		return +!!(window.localStorage);
+		]]></test>
+	</feature>
+
 	<feature id="desktop" default="0" type="boolean">
 		<name>Desktop</name>
 		<description>Desktop browser</description>
 		<data>
+			<plugin id="DesktopGuess" property="isDesktop"/>
 			<plugin id="DeviceAtlas" property="isBrowser"/>
 		</data>
 	</feature>
