@@ -204,10 +204,30 @@
 		<name>Persistent storage</name>
 		<description>Does the browser support persistent storage?</description>
 		<data>
-		<plugin id="KnowledgeBase" property="sessionStorage"/>
+		<plugin id="KnowledgeBase" property="localStorage"/>
 		</data>
 		<test type="text/javascript"><![CDATA[
 		return +!!(window.localStorage);
+		]]></test>
+	</feature>
+
+	<feature id="devicePixelRatio" default="0" type="number">
+		<name>Pixel ratio</name>
+		<description>Pixel density of the screen.</description>
+		<data>
+		<plugin id="KnowledgeBase" property="devicePixelRatio"/>
+		</data>
+		<test type="text/javascript"><![CDATA[
+		var ratio = window.devicePixelRatio;
+		if (typeof ratio !== 'undefined') {
+			ratio = parseInt(ratio, 10);
+			if (isNaN(ratio)) {
+				return 0;
+			}
+			return ratio;
+		} else {
+			return 0;
+	  }
 		]]></test>
 	</feature>
 
