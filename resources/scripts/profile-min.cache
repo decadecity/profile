@@ -87,8 +87,19 @@
 			}
 			return canvas;
 			},touch:function(){
-		try{document.createEvent("TouchEvent");return 1;}
-		catch(e){return 0;}
+		try {
+		  document.createEvent("TouchEvent");
+		  return 1;
+		}
+		catch(e) {
+			if (typeof navigator.msMaxTouchPoints !== "undefined" && navigator.msMaxTouchPoints > 0) {
+		    return 1;
+		  }
+		  else {
+		    return 0;
+		  }
+		}
+		alert(navigator.msMaxTouchPoints);
 		},timing:function(){
 		return +!!(window.performance && window.performance.timing);
 		},sessionStorage:function(){
