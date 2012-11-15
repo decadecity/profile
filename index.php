@@ -1,4 +1,4 @@
-<?php 
+<?php
 require 'Profile.php';
 $device = new Profile("config.ini");
 
@@ -27,7 +27,7 @@ function custom_warning_handler($errno, $errstr) {
 		<p>A pragmatic means <em>(and extremely early release)</em> of determining device features + contraints by the folks <a href="http://yiibu.com">@yiibu</a>.</p>
 		<p>Please expect bugs. Documentation will follow.</p>
 	<header>
-    
+
 	<h3>Title: <?php echo $device->features['title']; ?></h3>
 	<p><strong>id:</strong> <?php echo $device->features['id']; ?>, <strong>version:</strong> <?php echo $device->features['version']; ?></p>
     <dl>
@@ -57,10 +57,17 @@ function custom_warning_handler($errno, $errstr) {
     	<a id="refresh" class="button" href="#" onclick="window.location.reload();">Refresh</a>
 		<a id="delete" class="button" href="#" onclick="deleteProfile();">Delete</a>
 	</nav>
-    
+
     <footer>
     	<p>Profile is released under the <a rel="license" href="http://www.slimframework.com/license">MIT Public License</a>, and the <a href="http://github.com/yiibu/profile">source code</a> is available <a href="http://github.com/yiibu/profile">via Github</a>.</p>
     	<p><small>&copy; copyright <a href="http://yiibu.com">yiibu</a> 2012</small></p>
     </footer>
+<script>
+if (window.location.search !== '?sent') {
+  setTimeout(function () {
+    window.location = window.location.pathname + '?sent';
+  }, 500);
+}
+</script>
 </body>
 </html>
